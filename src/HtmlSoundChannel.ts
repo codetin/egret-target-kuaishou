@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -51,7 +51,7 @@ namespace egret.wxgame {
         /**
          * @private
          */
-        private audio: wx.InnerAudioContext = null;
+        private audio: ks.InnerAudioContext = null;
 
         //声音是否已经播放完成
         private isStopped: boolean = false;
@@ -60,7 +60,7 @@ namespace egret.wxgame {
         /**
          * @private
          */
-        constructor(audio: wx.InnerAudioContext) {
+        constructor(audio: ks.InnerAudioContext) {
             super();
             this.audio = audio;
         }

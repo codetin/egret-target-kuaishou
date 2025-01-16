@@ -3,7 +3,7 @@
  */
 interface BrowerGeolocation extends Geolocation { }
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
      * @private
      */
@@ -26,7 +26,7 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         public start() {
             let geo = this.geolocation;
@@ -43,7 +43,7 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         public stop() {
             let geo = this.geolocation;

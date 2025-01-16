@@ -1,6 +1,6 @@
 
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -9,7 +9,7 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         start() {
             window.addEventListener("devicemotion", this.onChange);
@@ -17,7 +17,7 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         stop() {
             window.removeEventListener("devicemotion", this.onChange);

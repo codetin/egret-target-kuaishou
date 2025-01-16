@@ -196,7 +196,7 @@ function init() {
   lastButtonX = offsetX_rankToBorder + buttonOffset - buttonWidth;
   nextButtonX = offsetX_rankToBorder + 2 * buttonOffset;
   nextButtonY = lastButtonY = offsetY_rankToBorder + rankHeight - 50 - buttonHeight;
-  let data = wx.getSystemInfoSync();
+  let data = ks.getSystemInfoSync();
   canvasWidth = data.windowWidth;
   canvasHeight = data.windowHeight;
 }
@@ -420,7 +420,7 @@ let indexWidth;
 /**
  * 监听点击
  */
-wx.onTouchEnd((event) => {
+ks.onTouchEnd((event) => {
   const l = event.changedTouches.length;
   for (let i = 0; i < l; i++) {
     onTouchEnd(event.changedTouches[i]);
@@ -441,7 +441,7 @@ function preloadAssets() {
   let count = 0;
   for (let asset in assetsUrl) {
     count++;
-    const img = wx.createImage();
+    const img = ks.createImage();
     img.onload = () => {
       preloaded++;
       if (preloaded == count) {
@@ -483,7 +483,7 @@ let hasCreateScene;
  */
 function addOpenDataContextListener() {
   console.log('增加监听函数')
-  wx.onMessage((data) => {
+  ks.onMessage((data) => {
     console.log(data);
     if (data.command == 'open') {
       if (!hasCreateScene) {

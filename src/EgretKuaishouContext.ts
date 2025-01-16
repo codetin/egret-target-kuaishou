@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
      * 微信小游戏支持库版本号
      */
@@ -44,7 +44,7 @@ namespace egret.wxgame {
     export let preUploadTexture: boolean = false;
 }
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -93,7 +93,7 @@ namespace egret.wxgame {
                 console.error(e);
             }
         }
-        
+
         Html5Capatibility.$init();
 
         // WebGL上下文参数自定义
@@ -164,7 +164,7 @@ namespace egret.wxgame {
         if (renderMode === "webgl") {
             //模拟器上不存在该方法
             let wxiOS10 = false;
-            if ((wx.createCanvas().getContext('webgl') as any).wxBindCanvasTexture) {
+            if ((ks.createCanvas().getContext('webgl') as any).wxBindCanvasTexture) {
                 //ios10 系统上需要做特殊处理，不断创建 canvas,其他版本不需要
                 let systemInfo = window['wx'].getSystemInfoSync();
                 wxiOS10 = systemInfo.system.indexOf('iOS 10') > -1 ? true : false;
@@ -228,7 +228,7 @@ namespace egret.wxgame {
 }
 
 if (DEBUG) {
-    let systemInfo = wx.getSystemInfoSync();
+    let systemInfo = ks.getSystemInfoSync();
     let language = systemInfo.language.toLowerCase();
     if (language.indexOf('zh') > -1) {
         language = "zh_CN"
@@ -240,4 +240,4 @@ if (DEBUG) {
     }
 }
 
-egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.WXGAME;
+egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;

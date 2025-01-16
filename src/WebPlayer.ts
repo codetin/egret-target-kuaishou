@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
      * @private
      */
@@ -49,7 +49,7 @@ namespace egret.wxgame {
             stage.$orientation = option.orientation;
             stage.$maxTouches = option.maxTouches;
             stage.frameRate = option.frameRate;
-            wx.setPreferredFramesPerSecond(stage.frameRate);
+            ks.setPreferredFramesPerSecond(stage.frameRate);
             stage.textureScaleFactor = option.textureScaleFactor;
 
             let buffer = new sys.RenderBuffer(undefined, undefined, true);
@@ -201,7 +201,7 @@ namespace egret.wxgame {
             let displayHeight = stageSize.displayHeight;
             canvas.style[getPrefixStyleName("transformOrigin")] = "0% 0% 0px";
             if (canvas.width != stageWidth) {
-                if (!wxgame.isSubContext) {
+                if (!kuaishou.isSubContext) {
                     if (window["sharedCanvas"]) {
                         window["sharedCanvas"].width = stageWidth;
                     }
@@ -209,7 +209,7 @@ namespace egret.wxgame {
                 }
             }
             if (canvas.height != stageHeight) {
-                if (!wxgame.isSubContext) {
+                if (!kuaishou.isSubContext) {
                     if (window["sharedCanvas"]) {
                         window["sharedCanvas"].height = stageHeight;
                     }

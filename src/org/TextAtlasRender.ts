@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     //测试开关,打开会截住老的字体渲染
     export const textAtlasRenderEnable: boolean = false;
@@ -254,7 +254,7 @@ namespace egret.wxgame {
             }
             if (!__textAtlasRender__) {
                 //创建，后续会转移给WebGLRenderContext
-                const webglcontext = egret.wxgame.WebGLRenderContext.getInstance(0, 0);
+                const webglcontext = egret.kuaishou.WebGLRenderContext.getInstance(0, 0);
                 //初期先512，因为不会大规模batch, 老项目最好不要直接使用这个，少数几个总变内容的TextField可以用，所以先不用$maxTextureSize
                 __textAtlasRender__ = new TextAtlasRender(webglcontext, textAtlasDebug ? 512 : 512/*webglcontext.$maxTextureSize*/, textAtlasDebug ? 12 : 1);
             }
@@ -332,7 +332,7 @@ namespace egret.wxgame {
                 page.webGLTexture[UNPACK_PREMULTIPLY_ALPHA_WEBGL] = true;
                 gl.texSubImage2D(gl.TEXTURE_2D, 0, txtBlock.subImageOffsetX, txtBlock.subImageOffsetY, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-                
+
             }
         }
 

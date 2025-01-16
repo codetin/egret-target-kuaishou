@@ -1,7 +1,7 @@
 const fileutil = require('./file-util');
 const path = fileutil.path;
 const fs = fileutil.fs;
-const WXFS = wx.getFileSystemManager();
+const WXFS = ks.getFileSystemManager();
 
 
 /**
@@ -74,7 +74,7 @@ function download(url, target) {
         const dirname = path.dirname(target);
         fs.mkdirsSync(dirname);
         const file_target = path.getWxUserPath(target);
-        wx.downloadFile({
+        ks.downloadFile({
             url: url,
             filePath: file_target,
             success: (v) => {

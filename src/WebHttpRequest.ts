@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -120,7 +120,7 @@ namespace egret.wxgame {
                 self.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
             };
 
-            const fs = wx.getFileSystemManager();
+            const fs = ks.getFileSystemManager();
 
             if (self.responseType == "arraybuffer") {
                 //不传 encoding 默认返回二进制格式，传了 encoding:binary 反而返回 string 格式
@@ -162,7 +162,7 @@ namespace egret.wxgame {
                 this.readFileAsync();
             } else {
                 const self = this;
-                wx.request({
+                ks.request({
                     data: data,
                     url: this._url,
                     method: this._method,
@@ -268,4 +268,3 @@ namespace egret.wxgame {
     HttpRequest = WebHttpRequest;
 
 }
-

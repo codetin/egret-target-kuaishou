@@ -1,8 +1,8 @@
 /**
  * 封装微信小游戏的文件系统
  */
-const wxFs = wx.getFileSystemManager();
-const WX_ROOT = wx.env.USER_DATA_PATH + "/";
+const wxFs = ks.getFileSystemManager();
+const WX_ROOT = ks.env.USER_DATA_PATH + "/";
 
 function walkFile(dirname, callback) {
     const files = wxFs.readdirSync(dirname)

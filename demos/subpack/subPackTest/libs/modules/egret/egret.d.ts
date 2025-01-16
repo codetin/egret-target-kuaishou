@@ -11268,6 +11268,7 @@ declare namespace egret {
         * @language zh_CN
         */
         const WECHATAPP = "wechatapp";
+f
     }
     interface SupportedCompressedTexture {
         pvrtc: boolean;

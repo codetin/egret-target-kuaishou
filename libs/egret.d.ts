@@ -11165,6 +11165,19 @@ declare namespace egret {
         * @language zh_CN
         */
         const QHGAME = "qhgame";
+        /**
+         * Running on Kuaishou mini game
+         * @version Egret 5.1.5
+         * @platform All
+         * @language en_US
+         */
+        /**
+         * 运行在微信小游戏上
+         * @version Egret 5.1.5
+         * @platform All
+         * @language zh_CN
+         */
+        const KUAISHOU = "kuaishou";
     }
     interface SupportedCompressedTexture {
         pvrtc: boolean;

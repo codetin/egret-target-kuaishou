@@ -1,4 +1,4 @@
-declare namespace wx {
+declare namespace ks {
     /** 系统环境变量 */
     const env: IENV
     /** 同步获取系统信息 */

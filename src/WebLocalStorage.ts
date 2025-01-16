@@ -26,12 +26,12 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-namespace egret.localStorage.wxgame {
+namespace egret.localStorage.kuaishou {
     /**
      * @private
-     * 
-     * @param key 
-     * @returns 
+     *
+     * @param key
+     * @returns
      */
     function getItem(key:string):string {
         return window.localStorage.getItem(key);
@@ -39,10 +39,10 @@ namespace egret.localStorage.wxgame {
 
     /**
      * @private
-     * 
-     * @param key 
-     * @param value 
-     * @returns 
+     *
+     * @param key
+     * @param value
+     * @returns
      */
     function setItem(key:string, value:string):boolean {
         try{
@@ -57,8 +57,8 @@ namespace egret.localStorage.wxgame {
 
     /**
      * @private
-     * 
-     * @param key 
+     *
+     * @param key
      */
     function removeItem(key:string):void {
         window.localStorage.removeItem(key);
@@ -66,7 +66,7 @@ namespace egret.localStorage.wxgame {
 
     /**
      * @private
-     * 
+     *
      */
     function clear():void {
         window.localStorage.clear();

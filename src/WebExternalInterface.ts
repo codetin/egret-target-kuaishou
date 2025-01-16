@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
      * @private
      */
@@ -48,6 +48,6 @@ namespace egret.wxgame {
         static addCallback(functionName:string, listener:(value)=>void):void {
         }
     }
-    
+
     ExternalInterface = WebExternalInterface;
 }

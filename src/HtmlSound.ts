@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -74,7 +74,7 @@ namespace egret.wxgame {
         /**
          * @private
          */
-        private originAudio: wx.InnerAudioContext;
+        private originAudio: ks.InnerAudioContext;
         /**
          * @private
          */
@@ -109,7 +109,7 @@ namespace egret.wxgame {
             if (!url) {
                 egret.$warn(3002);
             }
-            let audio: wx.InnerAudioContext = wx.createInnerAudioContext()
+            let audio: ks.InnerAudioContext = ks.createInnerAudioContext()
             audio.onCanplay(onAudioLoaded);
             audio.onError(onAudioError)
             audio.src = url;

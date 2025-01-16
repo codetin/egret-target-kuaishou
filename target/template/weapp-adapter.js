@@ -73,7 +73,7 @@
 	    _window.canvas.removeEventListener = _window.removeEventListener;
 	  }
 
-	  var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
+	  var _wx$getSystemInfoSync = ks.getSystemInfoSync(),
 	      platform = _wx$getSystemInfoSync.platform;
 
 	  // 开发者工具无法重定义 window
@@ -236,7 +236,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
+	var _wx$getSystemInfoSync = ks.getSystemInfoSync(),
 	    screenWidth = _wx$getSystemInfoSync.screenWidth,
 	    screenHeight = _wx$getSystemInfoSync.screenHeight,
 	    devicePixelRatio = _wx$getSystemInfoSync.devicePixelRatio;
@@ -265,11 +265,11 @@
 	});
 	var performance = void 0;
 
-	if (wx.getPerformance) {
-	  var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
+	if (ks.getPerformance) {
+	  var _wx$getSystemInfoSync = ks.getSystemInfoSync(),
 	      platform = _wx$getSystemInfoSync.platform;
 
-	  var wxPerf = wx.getPerformance();
+	  var wxPerf = ks.getPerformance();
 	  var initTime = wxPerf.now();
 
 	  var clientPerfAdapter = Object.assign({}, wxPerf, {
@@ -660,7 +660,7 @@
 	var hasInitWebGLContextConstructor = false;
 
 	function Canvas() {
-	  var canvas = wx.createCanvas();
+	  var canvas = ks.createCanvas();
 
 	  canvas.type = 'canvas';
 
@@ -834,7 +834,7 @@
 	});
 	exports.default = Image;
 	function Image() {
-	  var image = wx.createImage();
+	  var image = ks.createImage();
 
 	  return image;
 	}
@@ -892,7 +892,7 @@
 
 	    _src.set(_this, '');
 
-	    var innerAudioContext = wx.createInnerAudioContext();
+	    var innerAudioContext = ks.createInnerAudioContext();
 
 	    _innerAudioContext.set(_this, innerAudioContext);
 
@@ -1157,10 +1157,10 @@
 	  };
 	}
 
-	wx.onTouchStart(touchEventHandlerFactory('touchstart'));
-	wx.onTouchMove(touchEventHandlerFactory('touchmove'));
-	wx.onTouchEnd(touchEventHandlerFactory('touchend'));
-	wx.onTouchCancel(touchEventHandlerFactory('touchcancel'));
+	ks.onTouchStart(touchEventHandlerFactory('touchstart'));
+	ks.onTouchMove(touchEventHandlerFactory('touchmove'));
+	ks.onTouchEnd(touchEventHandlerFactory('touchend'));
+	ks.onTouchCancel(touchEventHandlerFactory('touchcancel'));
 
 /***/ }),
 /* 18 */
@@ -1174,8 +1174,8 @@
 
 	var _util = __webpack_require__(9);
 
-	// TODO 需要 wx.getSystemInfo 获取更详细信息
-	var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
+	// TODO 需要 ks.getSystemInfo 获取更详细信息
+	var _wx$getSystemInfoSync = ks.getSystemInfoSync(),
 	    platform = _wx$getSystemInfoSync.platform;
 
 	var navigator = {
@@ -1183,9 +1183,9 @@
 	  language: 'zh-cn',
 	  appVersion: '5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
 	  userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Mobile/14E8301 MicroMessenger/6.6.0 MiniGame NetType/WIFI Language/zh_CN',
-	  onLine: true, // TODO 用 wx.getNetworkStateChange 和 wx.onNetworkStateChange 来返回真实的状态
+	  onLine: true, // TODO 用 ks.getNetworkStateChange 和 ks.onNetworkStateChange 来返回真实的状态
 
-	  // TODO 用 wx.getLocation 来封装 geolocation
+	  // TODO 用 ks.getLocation 来封装 geolocation
 	  geolocation: {
 	    getCurrentPosition: _util.noop,
 	    watchPosition: _util.noop,
@@ -1307,7 +1307,7 @@
 	      if (this.readyState !== XMLHttpRequest.OPENED) {
 	        throw new Error("Failed to execute 'send' on 'XMLHttpRequest': The object's state must be OPENED.");
 	      } else {
-	        wx.request({
+	        ks.request({
 	          data: data,
 	          url: _url.get(this),
 	          method: _method.get(this),
@@ -1427,7 +1427,7 @@
 	    this.url = url;
 	    this.readyState = WebSocket.CONNECTING;
 
-	    var socketTask = wx.connectSocket({
+	    var socketTask = ks.connectSocket({
 	      url: url,
 	      protocols: Array.isArray(protocols) ? protocols : [protocols]
 	    });
@@ -1518,7 +1518,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/*
-	 * TODO 使用 wx.readFile 来封装 FileReader
+	 * TODO 使用 ks.readFile 来封装 FileReader
 	 */
 	var FileReader = function () {
 	  function FileReader() {
@@ -1546,29 +1546,29 @@
 	});
 	var localStorage = {
 	  get length() {
-	    var _wx$getStorageInfoSyn = wx.getStorageInfoSync(),
+	    var _wx$getStorageInfoSyn = ks.getStorageInfoSync(),
 	        keys = _wx$getStorageInfoSyn.keys;
 
 	    return keys.length;
 	  },
 
 	  key: function key(n) {
-	    var _wx$getStorageInfoSyn2 = wx.getStorageInfoSync(),
+	    var _wx$getStorageInfoSyn2 = ks.getStorageInfoSync(),
 	        keys = _wx$getStorageInfoSyn2.keys;
 
 	    return keys[n];
 	  },
 	  getItem: function getItem(key) {
-	    return wx.getStorageSync(key);
+	    return ks.getStorageSync(key);
 	  },
 	  setItem: function setItem(key, value) {
-	    return wx.setStorageSync(key, value);
+	    return ks.setStorageSync(key, value);
 	  },
 	  removeItem: function removeItem(key) {
-	    wx.removeStorageSync(key);
+	    ks.removeStorageSync(key);
 	  },
 	  clear: function clear() {
-	    wx.clearStorageSync();
+	    ks.clearStorageSync();
 	  }
 	};
 

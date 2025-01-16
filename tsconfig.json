@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "es5",
 		"removeComments":true,
-		"outFile": "./target/template/egret.wxgame.js"
+		"outFile": "./target/template/egret.kuaishou.js"
 	},
 	"files": [
 		"src/WebBitmapData.ts",
@@ -19,7 +19,7 @@
 		"src/WebTouchHandler.ts",
 		"src/WebHideHandler.ts",
 		"src/Html5Capatibility.ts",
-		"src/EgretWxgameContext.ts",
+		"src/EgretKuaishouContext.ts",
 		"src/WebCapability.ts",
 		"src/WebFps.ts",
 		"src/WebGetOption.ts",
@@ -47,7 +47,7 @@
 		"src/org/TextAtlasStrategy.ts",
 		"src/org/TextAtlasRender.ts",
 		"src/WebSysImpl.ts",
-		"libs/wx.d.ts",
+		"libs/ks.d.ts",
 		"libs/egret.d.ts"
 	]
 }

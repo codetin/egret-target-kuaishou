@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -139,7 +139,7 @@ namespace egret.wxgame {
 
         /**
          * scissor state
-         * scissor 开关状态  
+         * scissor 开关状态
          */
         public $scissorState: boolean = false;
         private scissorRect: Rectangle = new egret.Rectangle();

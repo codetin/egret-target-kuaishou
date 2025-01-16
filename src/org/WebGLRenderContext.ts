@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
   ///
   interface SupportedCompressedTextureInfo {
     extensionName: string;

@@ -27,9 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
-     * @private  
+     * @private
      */
     export enum WEBGL_ATTRIBUTE_TYPE {
         FLOAT_VEC2 = 0x8B50,
@@ -41,7 +41,7 @@ namespace egret.wxgame {
         UNSIGNED_SHORT = 0x1403
     }
     /**
-    * @private  
+    * @private
     */
     export enum WEBGL_UNIFORM_TYPE {
         FLOAT_VEC2 = 0x8B50,
@@ -98,13 +98,13 @@ namespace egret.wxgame {
         if (useMaxSize) {
             if (surface.width < width) {
                 surface.width = width;
-                if (!wxgame.isSubContext && window["sharedCanvas"]) {
+                if (!kuaishou.isSubContext && window["sharedCanvas"]) {
                     window["sharedCanvas"].width = width;
                 }
             }
             if (surface.height < height) {
                 surface.height = height;
-                if (!wxgame.isSubContext && window["sharedCanvas"]) {
+                if (!kuaishou.isSubContext && window["sharedCanvas"]) {
                     window["sharedCanvas"].height = height;
                 }
             }
@@ -112,13 +112,13 @@ namespace egret.wxgame {
         else {
             if (surface.width !== width) {
                 surface.width = width;
-                if (!wxgame.isSubContext && window["sharedCanvas"]) {
+                if (!kuaishou.isSubContext && window["sharedCanvas"]) {
                     window["sharedCanvas"].width = width;
                 }
             }
             if (surface.height !== height) {
                 surface.height = height;
-                if (!wxgame.isSubContext && window["sharedCanvas"]) {
+                if (!kuaishou.isSubContext && window["sharedCanvas"]) {
                     window["sharedCanvas"].height = height;
                 }
             }
@@ -224,8 +224,8 @@ namespace egret.wxgame {
 
     /**
      * 测量文本的宽度
-     * @param context 
-     * @param text 
+     * @param context
+     * @param text
      */
     function measureTextWith(context: CanvasRenderingContext2D, text: string): number {
         const metrics = context.measureText(text);
@@ -239,14 +239,14 @@ namespace egret.wxgame {
 
     /**
      * 为CanvasRenderBuffer创建一个HTMLCanvasElement
-     * @param defaultFunc 
-     * @param width 
-     * @param height 
-     * @param root 
+     * @param defaultFunc
+     * @param width
+     * @param height
+     * @param root
      */
     function createCanvasRenderBufferSurface(defaultFunc: (width?: number, height?: number) => HTMLCanvasElement, width?: number, height?: number, root?: boolean): HTMLCanvasElement {
         if (root) {
-            if (wxgame.isSubContext) {
+            if (kuaishou.isSubContext) {
                 return window["sharedCanvas"];
             }
             else {
@@ -261,15 +261,15 @@ namespace egret.wxgame {
 
     /**
      * 改变渲染缓冲的大小并清空缓冲区
-     * @param renderContext 
-     * @param width 
-     * @param height 
-     * @param useMaxSize 
+     * @param renderContext
+     * @param width
+     * @param height
+     * @param useMaxSize
      */
     function resizeCanvasRenderBuffer(renderContext: egret.sys.RenderContext, width: number, height: number, useMaxSize?: boolean): void {
         let canvasRenderBuffer = <CanvasRenderBuffer>renderContext;
         let surface = canvasRenderBuffer.surface;
-        if (wxgame.isSubContext) {
+        if (kuaishou.isSubContext) {
             return;
         }
         if (useMaxSize) {
@@ -313,8 +313,8 @@ namespace egret.wxgame {
     }
     egret.sys.resizeCanvasRenderBuffer = resizeCanvasRenderBuffer;
 
-    egret.Geolocation = egret.wxgame.WebGeolocation;
-    egret.Motion = egret.wxgame.WebMotion;
+    egret.Geolocation = egret.kuaishou.WebGeolocation;
+    egret.Motion = egret.kuaishou.WebMotion;
 }
 if (window["sharedCanvas"]) {
     window["sharedCanvas"].isCanvas = true;

@@ -27,12 +27,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
      * @private
      */
     export function getOption(key: string): string {
-        const launchOptions = wx.getLaunchOptionsSync();
+        const launchOptions = ks.getLaunchOptionsSync();
         return launchOptions.query[key] || launchOptions[key];
     }
 

@@ -32,7 +32,7 @@ namespace egret {
         constructor() {
 
         }
-        private socketTask: wx.socketTask;
+        private socketTask: ks.socketTask;
         private onConnect: Function;
         private onClose: Function;
         private onSocketData: Function;
@@ -52,14 +52,14 @@ namespace egret {
             this.port = port;
 
             let socketServerUrl = "ws://" + this.host + ":" + this.port;
-            this.socketTask = wx.connectSocket({
+            this.socketTask = ks.connectSocket({
                 url: socketServerUrl
             })
             this._bindEvent();
         }
 
         public connectByUrl(url: string): void {
-            this.socketTask = wx.connectSocket({
+            this.socketTask = ks.connectSocket({
                 url: url
             })
             this._bindEvent();

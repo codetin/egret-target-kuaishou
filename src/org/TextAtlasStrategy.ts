@@ -30,7 +30,7 @@
 /*
 *** 一个管理模型，逐级包含: back -> page -> line -> textBlock
 */
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     export class TextBlock extends HashObject {
 
@@ -48,7 +48,7 @@ namespace egret.wxgame {
         public readonly canvasWidthOffset: number = 0;
         public readonly canvasHeightOffset: number = 0;
         public readonly stroke2: number = 0;
-        
+
 
         constructor(width: number, height: number, measureWidth: number, measureHeight: number, canvasWidthOffset: number, canvasHeightOffset: number, stroke2: number, border: number) {
             super();
@@ -341,4 +341,3 @@ namespace egret.wxgame {
         }
     }
 }
-

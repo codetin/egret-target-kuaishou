@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -49,7 +49,7 @@ namespace egret.wxgame {
         */
         private readonly maxVertexCount: number = this.maxQuadsCount * 4;
         /*
-        *配套的Indices = quad * 6. 
+        *配套的Indices = quad * 6.
         */
         private readonly maxIndicesCount: number = this.maxQuadsCount * 6;
 
@@ -63,7 +63,7 @@ namespace egret.wxgame {
         private hasMesh: boolean = false;
 
         /*
-        * refactor: 
+        * refactor:
         */
         private _vertices: ArrayBuffer = null;
         private _verticesFloat32View: Float32Array = null;
@@ -83,9 +83,9 @@ namespace egret.wxgame {
             0-------1
             |       |
             |       |
-            3-------2  
+            3-------2
             0->1->2
-            0->2->3 
+            0->2->3
             两个三角形
             */
             const maxIndicesCount = this.maxIndicesCount;

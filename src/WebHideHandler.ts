@@ -27,14 +27,14 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     let isShow = true;
     /**
      * @private
      */
     export let WebLifeCycleHandler: egret.lifecycle.LifecyclePlugin = (context) => {
-        if (wx.onShow) {
-            wx.onShow(() => {
+        if (ks.onShow) {
+            ks.onShow(() => {
                 if (!isShow) {
                     context.resume();
                     isShow = true;
@@ -42,8 +42,8 @@ namespace egret.wxgame {
             });
         }
 
-        if (wx.onHide) {
-            wx.onHide(() => {
+        if (ks.onHide) {
+            ks.onHide(() => {
                 if (isShow) {
                     context.pause();
                     isShow = false;

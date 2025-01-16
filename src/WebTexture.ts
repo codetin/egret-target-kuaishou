@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     let sharedCanvas: HTMLCanvasElement;
     let sharedContext: CanvasRenderingContext2D;
@@ -138,9 +138,9 @@ namespace egret.wxgame {
             fileType: type.indexOf("png") >= 0 ? "png" : "jpg"
         });
 
-        wx.getFileSystemManager().saveFile({
+        ks.getFileSystemManager().saveFile({
             tempFilePath: result,
-            filePath: `${wx.env.USER_DATA_PATH}/${filePath}`,
+            filePath: `${ks.env.USER_DATA_PATH}/${filePath}`,
             success: function (res) {
                 //todo
             }

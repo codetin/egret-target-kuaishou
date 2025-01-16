@@ -19,10 +19,10 @@ fs.writeFileSync(targetJsonPath, JSON.stringify(targetJson, undefined, "\t"));
 
 var encoding = "utf8";
 var exe = cp.exec("egret build", function () {
-    var jsPath = "./target/template/egret.wxgame.js";
+    var jsPath = "./target/template/egret.kuaishou.js";
     var content = fs.readFileSync(jsPath, { encoding });
     content = content.replace(/var egret;/gi, "");
-    var key = "wxgame.version = \"";
+    var key = "kuaishou.version = \"";
     var index = content.indexOf(key);
     content = content.slice(0, index + key.length) + version + content.slice(index + key.length + 5);
     fs.writeFileSync(jsPath, content);

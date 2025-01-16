@@ -1,7 +1,7 @@
 const fileutil = require('./file-util');
 const path = fileutil.path;
 const fs = fileutil.fs;
-const WXFS = wx.getFileSystemManager();
+const WXFS = ks.getFileSystemManager();
 
 
 /**
@@ -64,7 +64,7 @@ let systemInfo;
 
 function loadImage(imageURL, scale9grid) {
     return new Promise((resolve, reject) => {
-        const image = wx.createImage();
+        const image = ks.createImage();
 
 
         image.onload = () => {
@@ -75,7 +75,7 @@ function loadImage(imageURL, scale9grid) {
                 texture["scale9Grid"] = scale9grid;
             }
             if (systemInfo == null) {
-                systemInfo = wx.getSystemInfoSync();
+                systemInfo = ks.getSystemInfoSync();
             }
             if (systemInfo.platform == "ios") {
                 setTimeout(() => {
@@ -103,7 +103,7 @@ function download(url, target) {
         const dirname = path.dirname(target);
         fs.mkdirsSync(dirname);
         const file_target = path.getWxUserPath(target);
-        wx.downloadFile({
+        ks.downloadFile({
             url: url,
             filePath: file_target,
             success: (v) => {

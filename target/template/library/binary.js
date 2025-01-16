@@ -1,7 +1,7 @@
 const fileutil = require('./file-util');
 const path = fileutil.path;
 const fs = fileutil.fs;
-const WXFS = wx.getFileSystemManager();
+const WXFS = ks.getFileSystemManager();
 
 class BinaryProcessor {
 
@@ -70,7 +70,7 @@ let wxSystemInfo;
 
 function needReadFile() {
     if (!wxSystemInfo) {
-        wxSystemInfo = wx.getSystemInfoSync();
+        wxSystemInfo = ks.getSystemInfoSync();
     }
     let sdkVersion = wxSystemInfo.SDKVersion;
     let platform = wxSystemInfo.system.split(" ").shift();
@@ -79,7 +79,7 @@ function needReadFile() {
 
 function loadBinary(xhrURL) {
     return new Promise((resolve, reject) => {
-        wx.request({
+        ks.request({
             url: xhrURL,
             method: 'get',
             responseType: 'arraybuffer',

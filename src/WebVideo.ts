@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -196,8 +196,8 @@ namespace egret.wxgame {
                 this.userPlay = true;
                 return
             }
-            this.userPlay = false;            
-            
+            this.userPlay = false;
+
             this.video.play();
         }
 

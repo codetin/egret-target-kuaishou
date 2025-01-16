@@ -1,4 +1,4 @@
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -7,21 +7,21 @@ namespace egret.wxgame {
         private isStart: boolean = false;
         /**
          * @private
-         * 
+         *
          */
         start() {
             this.isStart = true;
-            wx.startDeviceMotionListening({ interval: "normal" })
-            wx.onDeviceMotionChange(this.onChange)
+            ks.startDeviceMotionListening({ interval: "normal" })
+            ks.onDeviceMotionChange(this.onChange)
         }
 
         /**
          * @private
-         * 
+         *
          */
         stop() {
             this.isStart = false;
-            wx.stopDeviceMotionListening()
+            ks.stopDeviceMotionListening()
         }
 
         /**
@@ -40,4 +40,4 @@ namespace egret.wxgame {
     }
 }
 
-egret.DeviceOrientation = egret.wxgame.WebDeviceOrientation;
+egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;

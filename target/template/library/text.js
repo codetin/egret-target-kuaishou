@@ -1,7 +1,7 @@
 const fileutil = require('./file-util');
 const path = fileutil.path;
 const fs = fileutil.fs;
-const WXFS = wx.getFileSystemManager();
+const WXFS = ks.getFileSystemManager();
 
 /**
  * 重写的文本加载器，代替引擎默认的文本加载器

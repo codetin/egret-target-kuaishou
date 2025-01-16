@@ -27,9 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
     /**
-     * @private 
+     * @private
      */
     export class EgretWebGLAttribute {
 

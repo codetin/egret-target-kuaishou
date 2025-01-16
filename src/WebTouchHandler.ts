@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -55,33 +55,33 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         private addTouchListener(): void {
             let self = this;
-            if (wxgame.isSubContext) {
-                wx.onTouchStart((event) => {
+            if (kuaishou.isSubContext) {
+                ks.onTouchStart((event) => {
                     var l = event.changedTouches.length;
                     for (var i = 0; i < l; i++) {
                         self.onTouchBegin(event.changedTouches[i]);
                     }
                 });
 
-                wx.onTouchMove((event) => {
+                ks.onTouchMove((event) => {
                     var l = event.changedTouches.length;
                     for (var i = 0; i < l; i++) {
                         self.onTouchMove(event.changedTouches[i]);
                     }
                 });
 
-                wx.onTouchEnd((event) => {
+                ks.onTouchEnd((event) => {
                     var l = event.changedTouches.length;
                     for (var i = 0; i < l; i++) {
                         self.onTouchEnd(event.changedTouches[i]);
                     }
                 });
 
-                wx.onTouchCancel((event) => {
+                ks.onTouchCancel((event) => {
                     var l = event.changedTouches.length;
                     for (var i = 0; i < l; i++) {
                         self.onTouchEnd(event.changedTouches[i]);
@@ -159,14 +159,14 @@ namespace egret.wxgame {
          * @private
          */
         private getLocation(event: any): Point {
-            //   event.identifier = +event.identifier || 0;        wxgame 内核该属性只读
+            //   event.identifier = +event.identifier || 0;        kuaishou 内核该属性只读
             let doc = document.documentElement;
             let box = this.canvas.getBoundingClientRect();
             let left = box.left
-                //+ window.pageXOffset - doc.clientLeft              wxgame 不存在
+                //+ window.pageXOffset - doc.clientLeft              kuaishou 不存在
                 ;
             let top = box.top
-                //+ window.pageYOffset - doc.clientTop                wxgame 不存在
+                //+ window.pageYOffset - doc.clientTop                kuaishou 不存在
                 ;
             let x = event.pageX - left, newx = x;
             let y = event.pageY - top, newy = y;

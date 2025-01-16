@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     function loadShader(gl:WebGLRenderingContext, type:number, source:string):WebGLShader {
         let shader = gl.createShader(type);
@@ -110,7 +110,7 @@ namespace egret.wxgame {
 
         /**
          * 获取所需的WebGL Program
-         * @param key {string} 对于唯一的program程序，对应唯一的key 
+         * @param key {string} 对于唯一的program程序，对应唯一的key
          */
         public static getProgram(gl:WebGLRenderingContext, vertSource:string, fragSource:string, key:string):EgretWebGLProgram {
 
@@ -124,7 +124,7 @@ namespace egret.wxgame {
         public static deleteProgram(gl:WebGLRenderingContext, vertSource:string, fragSource:string, key:string):void {
             // TODO delete
         }
- 
+
         private vshaderSource:string;
         private fshaderSource:string;
         private vertexShader:WebGLShader;

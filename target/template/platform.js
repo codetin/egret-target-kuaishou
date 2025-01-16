@@ -2,11 +2,11 @@
  * 请在白鹭引擎的Main.ts中调用 platform.login() 方法调用至此处。
  */
 
-class WxgamePlatform {
+class KuaishouPlatform {
 
     login() {
         return new Promise((resolve, reject) => {
-            wx.login({
+            ks.login({
                 success: (res) => {
                     resolve(res)
                 }
@@ -16,7 +16,7 @@ class WxgamePlatform {
 
     getUserInfo() {
         return new Promise((resolve, reject) => {
-            wx.getUserInfo({
+            ks.getUserInfo({
                 withCredentials: true,
                 success: function (res) {
                     var userInfo = res.userInfo
@@ -34,7 +34,7 @@ class WxgamePlatform {
 }
 
 
-class WxgameOpenDataContext {
+class KuaishouOpenDataContext {
 
     createDisplayObject(type, width, height) {
         const bitmapdata = new egret.BitmapData(sharedCanvas);
@@ -46,7 +46,7 @@ class WxgameOpenDataContext {
         bitmap.height = height;
 
         if (egret.Capabilities.renderMode == "webgl") {
-            const renderContext = egret.wxgame.WebGLRenderContext.getInstance();
+            const renderContext = egret.kuaishou.WebGLRenderContext.getInstance();
             const context = renderContext.context;
             ////需要用到最新的微信版本
             ////调用其接口WebGLRenderingContext.wxBindCanvasTexture(number texture, Canvas canvas)
@@ -64,12 +64,12 @@ class WxgameOpenDataContext {
 
 
     postMessage(data) {
-        const openDataContext = wx.getOpenDataContext();
+        const openDataContext = ks.getOpenDataContext();
         openDataContext.postMessage(data);
     }
 }
 
-WxgamePlatform.prototype.name = 'wxgame';
-WxgamePlatform.prototype.openDataContext = new WxgameOpenDataContext();
+KuaishouPlatform.prototype.name = 'kuaishou';
+KuaishouPlatform.prototype.openDataContext = new KuaishouOpenDataContext();
 
-window.platform = new WxgamePlatform();
+window.platform = new KuaishouPlatform();

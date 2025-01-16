@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @classdesc
@@ -50,8 +50,8 @@ namespace egret.wxgame {
         $textfield: egret.TextField;
         /**
          * @private
-         * 
-         * @param textfield 
+         *
+         * @param textfield
          */
         $setTextField(textfield: egret.TextField): boolean {
             this.$textfield = textfield;
@@ -61,14 +61,14 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         $addToStage(): void {
         }
 
         /**
          * @private
-         * 
+         *
          */
         $show(): void {
             let info: any = {
@@ -84,10 +84,10 @@ namespace egret.wxgame {
             if (this.$textfield.maxChars) {
                 info.maxLength = this.$textfield.maxChars;
             }
-            wx.showKeyboard(info);
-            wx.onKeyboardConfirm(this.onKeyboardComplete);
-            wx.onKeyboardComplete(this.onKeyboardComplete);
-            wx.onKeyboardInput(this.onKeyboardInput);
+            ks.showKeyboard(info);
+            ks.onKeyboardConfirm(this.onKeyboardComplete);
+            ks.onKeyboardComplete(this.onKeyboardComplete);
+            ks.onKeyboardInput(this.onKeyboardInput);
 
             this.dispatchEvent(new egret.Event("focus"));
         }
@@ -106,10 +106,10 @@ namespace egret.wxgame {
          * @private
          */
         $hide(): void {
-            wx.offKeyboardComplete();
-            wx.offKeyboardConfirm();
-            wx.offKeyboardInput();
-            wx.hideKeyboard({});
+            ks.offKeyboardComplete();
+            ks.offKeyboardConfirm();
+            ks.offKeyboardInput();
+            ks.hideKeyboard({});
             this.dispatchEvent(new egret.Event("blur"));
         }
 
@@ -120,8 +120,8 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
-         * @returns 
+         *
+         * @returns
          */
         $getText(): string {
             if (!this.textValue) {
@@ -132,8 +132,8 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
-         * @param value 
+         *
+         * @param value
          */
         $setText(value: string): boolean {
             this.textValue = value;
@@ -156,7 +156,7 @@ namespace egret.wxgame {
 
         /**
          * @private
-         * 
+         *
          */
         $removeFromStage(): void {
 

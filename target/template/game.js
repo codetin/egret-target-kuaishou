@@ -1,7 +1,7 @@
 require('./weapp-adapter.js');
 require('./platform.js');
 require('./manifest.js');
-require('./egret.wxgame.js');
+require('./egret.kuaishou.js');
 
 // 启动微信小游戏本地缓存，如果开发者不需要此功能，只需注释即可
 // 只有使用 assetsmanager 的项目可以使用

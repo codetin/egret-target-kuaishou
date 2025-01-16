@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
@@ -41,7 +41,7 @@ namespace egret.wxgame {
             let capabilities = egret.Capabilities;
             capabilities["isMobile" + ""] = true;
 
-            let systemInfo = wx.getSystemInfoSync();
+            let systemInfo = ks.getSystemInfoSync();
             let systemStr = systemInfo.system.toLowerCase();
             if (systemStr.indexOf("ios") > -1) {
                 capabilities["os" + ""] = "iOS";

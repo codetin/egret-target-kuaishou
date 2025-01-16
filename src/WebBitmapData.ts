@@ -31,12 +31,12 @@ if (window['HTMLDivElement'] == undefined) {
     window['HTMLDivElement'] = HTMLElement;
 }
 
-  
+
 // There is no HTMLDivElement in webkit for air
 if (window['HTMLVideoElement'] == undefined) {
     window['HTMLVideoElement'] = HTMLDivElement;
 }
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     let className = "egret.BitmapData";
     registerClass(HTMLImageElement, className);

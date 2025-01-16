@@ -27,11 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     /**
      * @private
-     * WebGLRenderTarget 
+     * WebGLRenderTarget
      * A WebGL render target with a frame buffer and texture
      */
     export class WebGLRenderTarget extends HashObject {

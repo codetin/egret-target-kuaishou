@@ -29,7 +29,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-namespace egret.wxgame {
+namespace egret.kuaishou {
 
     let winURL = window["URL"] || window["webkitURL"];
 
@@ -132,7 +132,7 @@ namespace egret.wxgame {
                 return;
             }
             this.data = new egret.BitmapData(image);
-            if (wxgame.preUploadTexture && Capabilities.renderMode == "webgl") {
+            if (kuaishou.preUploadTexture && Capabilities.renderMode == "webgl") {
                 WebGLRenderContext.getInstance(null, null).getWebGLTexture(this.data);
             }
             window.setTimeout(() => {
