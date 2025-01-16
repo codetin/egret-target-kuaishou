@@ -1,161 +1,214 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-if (window['HTMLDivElement'] == undefined) {
-    window['HTMLDivElement'] = HTMLElement;
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = this && this.__extends || function __extends(t, e) { 
+ function r() { 
+ this.constructor = t;
 }
-if (window['HTMLVideoElement'] == undefined) {
-    window['HTMLVideoElement'] = HTMLDivElement;
-}
+for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
+r.prototype = e.prototype, t.prototype = new r();
+};
 
 (function (egret) {
-    var kuaishou;
-    (function (kuaishou) {
-        var className = "egret.BitmapData";
-        egret.registerClass(HTMLImageElement, className);
-        egret.registerClass(HTMLCanvasElement, className);
-        egret.registerClass(HTMLVideoElement, className);
-    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
-})(egret || (egret = {}));
-(function (egret) {
-    function $toBitmapData(data) {
-        data["hashCode"] = data["$hashCode"] = egret.$hashCount++;
-        return data;
-    }
-    egret.$toBitmapData = $toBitmapData;
 })(egret || (egret = {}));
 
 (function (egret) {
     var kuaishou;
     (function (kuaishou) {
-        var WebExternalInterface = (function () {
-            function WebExternalInterface() {
-            }
-            WebExternalInterface.call = function (functionName, value) {
-            };
-            WebExternalInterface.addCallback = function (functionName, listener) {
-            };
-            return WebExternalInterface;
-        }());
-        kuaishou.WebExternalInterface = WebExternalInterface;
-        egret.ExternalInterface = WebExternalInterface;
-    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
-})(egret || (egret = {}));
-
-(function (egret) {
-    var localStorage;
-    (function (localStorage) {
-        var kuaishou;
-        (function (kuaishou) {
-            function getItem(key) {
-                return window.localStorage.getItem(key);
-            }
-            function setItem(key, value) {
-                try {
-                    window.localStorage.setItem(key, value);
-                    return true;
-                }
-                catch (e) {
-                    egret.$warn(1047, key, value);
-                    return false;
-                }
-            }
-            function removeItem(key) {
-                window.localStorage.removeItem(key);
-            }
-            function clear() {
-                window.localStorage.clear();
-            }
-            localStorage.getItem = getItem;
-            localStorage.setItem = setItem;
-            localStorage.removeItem = removeItem;
-            localStorage.clear = clear;
-        })(kuaishou = localStorage.kuaishou || (localStorage.kuaishou = {}));
-    })(localStorage = egret.localStorage || (egret.localStorage = {}));
-})(egret || (egret = {}));
-
-(function (egret) {
-    var kuaishou;
-    (function (kuaishou) {
-        var HtmlSound = (function (_super) {
-            __extends(HtmlSound, _super);
-            function HtmlSound() {
+        var WebGeolocation = (function (_super) {
+            __extends(WebGeolocation, _super);
+            function WebGeolocation(option) {
                 var _this = _super.call(this) || this;
-                _this.loaded = false;
+                _this.onUpdate = function (position) {
+                    var event = new egret.GeolocationEvent(egret.Event.CHANGE);
+                    var coords = position.coords;
+                    event.altitude = coords.altitude;
+                    event.heading = coords.heading;
+                    event.accuracy = coords.accuracy;
+                    event.latitude = coords.latitude;
+                    event.longitude = coords.longitude;
+                    event.speed = coords.speed;
+                    event.altitudeAccuracy = coords.altitudeAccuracy;
+                    _this.dispatchEvent(event);
+                };
+                _this.onError = function (error) {
+                    var errorType = egret.GeolocationEvent.UNAVAILABLE;
+                    if (error.code == error.PERMISSION_DENIED)
+                        errorType = egret.GeolocationEvent.PERMISSION_DENIED;
+                    var event = new egret.GeolocationEvent(egret.IOErrorEvent.IO_ERROR);
+                    event.errorType = errorType;
+                    event.errorMessage = error.message;
+                    _this.dispatchEvent(event);
+                };
+                _this.geolocation = navigator.geolocation;
                 return _this;
             }
-            Object.defineProperty(HtmlSound.prototype, "length", {
-                get: function () {
-                    if (this.originAudio) {
-                        return this.originAudio.duration;
-                    }
-                    throw new Error("sound not loaded!");
-                },
-                enumerable: false,
-                configurable: true
-            });
-            HtmlSound.prototype.load = function (url) {
-                var self = this;
-                this.url = url;
-                if (!url) {
-                    egret.$warn(3002);
-                }
-                var audio = ks.createInnerAudioContext();
-                audio.onCanplay(onAudioLoaded);
-                audio.onError(onAudioError);
-                audio.src = url;
-                this.originAudio = audio;
-                function onAudioLoaded() {
-                    removeListeners();
-                    self.loaded = true;
-                    self.dispatchEventWith(egret.Event.COMPLETE);
-                }
-                function onAudioError() {
-                    removeListeners();
-                    self.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
-                }
-                function removeListeners() {
-                    audio.offCanplay(onAudioLoaded);
-                    audio.offError(onAudioError);
-                }
+            WebGeolocation.prototype.start = function () {
+                var geo = this.geolocation;
+                if (geo)
+                    this.watchId = geo.watchPosition(this.onUpdate, this.onError);
+                else
+                    this.onError({
+                        code: 2,
+                        message: egret.sys.tr(3004),
+                        PERMISSION_DENIED: 1,
+                        POSITION_UNAVAILABLE: 2
+                    });
             };
-            HtmlSound.prototype.play = function (startTime, loops) {
-                startTime = +startTime || 0;
-                loops = +loops || 0;
-                if (DEBUG && this.loaded == false) {
-                    egret.$warn(1049);
-                }
-                var channel = new kuaishou.HtmlSoundChannel(this.originAudio);
-                channel.$url = this.url;
-                channel.$loops = loops;
-                channel.$startTime = startTime;
-                channel.$play();
-                return channel;
+            WebGeolocation.prototype.stop = function () {
+                var geo = this.geolocation;
+                geo.clearWatch(this.watchId);
             };
-            HtmlSound.prototype.close = function () {
-                if (this.originAudio) {
-                    this.originAudio.destroy();
-                    this.originAudio = null;
-                }
-                this.loaded = false;
-            };
-            HtmlSound.MUSIC = "music";
-            HtmlSound.EFFECT = "effect";
-            return HtmlSound;
+            return WebGeolocation;
         }(egret.EventDispatcher));
-        kuaishou.HtmlSound = HtmlSound;
+        kuaishou.WebGeolocation = WebGeolocation;
+        __reflect(WebGeolocation.prototype, "egret.kuaishou.WebGeolocation", ["egret.Geolocation"]);
+    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
+})(egret || (egret = {}));
+
+(function (egret) {
+    var kuaishou;
+    (function (kuaishou) {
+        var WebMotion = (function (_super) {
+            __extends(WebMotion, _super);
+            function WebMotion() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.onChange = function (e) {
+                    var event = new egret.MotionEvent(egret.Event.CHANGE);
+                    var acceleration = {
+                        x: e.acceleration.x,
+                        y: e.acceleration.y,
+                        z: e.acceleration.z
+                    };
+                    var accelerationIncludingGravity = {
+                        x: e.accelerationIncludingGravity.x,
+                        y: e.accelerationIncludingGravity.y,
+                        z: e.accelerationIncludingGravity.z
+                    };
+                    var rotation = {
+                        alpha: e.rotationRate.alpha,
+                        beta: e.rotationRate.beta,
+                        gamma: e.rotationRate.gamma
+                    };
+                    event.acceleration = acceleration;
+                    event.accelerationIncludingGravity = accelerationIncludingGravity;
+                    event.rotationRate = rotation;
+                    _this.dispatchEvent(event);
+                };
+                return _this;
+            }
+            WebMotion.prototype.start = function () {
+                window.addEventListener("devicemotion", this.onChange);
+            };
+            WebMotion.prototype.stop = function () {
+                window.removeEventListener("devicemotion", this.onChange);
+            };
+            return WebMotion;
+        }(egret.EventDispatcher));
+        kuaishou.WebMotion = WebMotion;
+        __reflect(WebMotion.prototype, "egret.kuaishou.WebMotion", ["egret.Motion"]);
+    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
+})(egret || (egret = {}));
+
+(function (egret) {
+    var kuaishou;
+    (function (kuaishou) {
+        var XMLNode = (function () {
+            function XMLNode(nodeType, parent) {
+                this.nodeType = nodeType;
+                this.parent = parent;
+            }
+            return XMLNode;
+        }());
+        kuaishou.XMLNode = XMLNode;
+        __reflect(XMLNode.prototype, "egret.kuaishou.XMLNode");
+        var XML = (function (_super) {
+            __extends(XML, _super);
+            function XML(localName, parent, prefix, namespace, name) {
+                var _this = _super.call(this, 1, parent) || this;
+                _this.attributes = {};
+                _this.children = [];
+                _this.localName = localName;
+                _this.prefix = prefix;
+                _this.namespace = namespace;
+                _this.name = name;
+                return _this;
+            }
+            return XML;
+        }(XMLNode));
+        kuaishou.XML = XML;
+        __reflect(XML.prototype, "egret.kuaishou.XML");
+        var XMLText = (function (_super) {
+            __extends(XMLText, _super);
+            function XMLText(text, parent) {
+                var _this = _super.call(this, 3, parent) || this;
+                _this.text = text;
+                return _this;
+            }
+            return XMLText;
+        }(XMLNode));
+        kuaishou.XMLText = XMLText;
+        __reflect(XMLText.prototype, "egret.kuaishou.XMLText");
+        var parser;
+        function parse(text) {
+            if (!parser) {
+                if (!window["DOMParser"]) {
+                    console.error("没有 XML 支持库，请访问 http://developer.egret.com/cn/github/egret-docs/Engine2D/minigame/minigameFAQ/index.html#xml 了解详情");
+                }
+                else {
+                    parser = new DOMParser();
+                }
+            }
+            var xmlDoc = parser.parseFromString(text, "text/xml");
+            var length = xmlDoc.childNodes.length;
+            for (var i = 0; i < length; i++) {
+                var node = xmlDoc.childNodes[i];
+                if (node.nodeType == 1) {
+                    return parseNode(node, null);
+                }
+            }
+            return null;
+        }
+        function parseNode(node, parent) {
+            if (node.localName == "parsererror") {
+                throw new Error(node.textContent);
+            }
+            var xml = new XML(node.localName, parent, node["prefix"], node.namespaceURI, node.nodeName);
+            var nodeAttributes = node.attributes;
+            var attributes = xml.attributes;
+            var length = nodeAttributes.length;
+            for (var i = 0; i < length; i++) {
+                var attributeNode = nodeAttributes[i];
+                var name_1 = attributeNode.name;
+                if (name_1.indexOf("xmlns:") == 0) {
+                    continue;
+                }
+                attributes[name_1] = attributeNode.value;
+                xml["$" + name_1] = attributeNode.value;
+            }
+            var childNodes = node.childNodes;
+            length = childNodes.length;
+            var children = xml.children;
+            for (var i = 0; i < length; i++) {
+                var childNode = childNodes[i];
+                var nodeType = childNode.nodeType;
+                var childXML = null;
+                if (nodeType == 1) {
+                    childXML = parseNode(childNode, xml);
+                }
+                else if (nodeType == 3) {
+                    var text = childNode.textContent.trim();
+                    if (text) {
+                        childXML = new XMLText(text, xml);
+                    }
+                }
+                if (childXML) {
+                    children.push(childXML);
+                }
+            }
+            return xml;
+        }
+        egret.XML = { parse: parse };
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -233,7 +286,7 @@ if (window['HTMLVideoElement'] == undefined) {
                         return;
                     this.audio.volume = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(HtmlSoundChannel.prototype, "position", {
@@ -242,12 +295,13 @@ if (window['HTMLVideoElement'] == undefined) {
                         return 0;
                     return this.audio.currentTime;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             return HtmlSoundChannel;
         }(egret.EventDispatcher));
         kuaishou.HtmlSoundChannel = HtmlSoundChannel;
+        __reflect(HtmlSoundChannel.prototype, "egret.kuaishou.HtmlSoundChannel", ["egret.SoundChannel", "egret.IEventDispatcher"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -304,7 +358,7 @@ if (window['HTMLVideoElement'] == undefined) {
                 if (cache === void 0) { cache = true; }
                 url = url || this.src;
                 this.src = url;
-                if (DEBUG && !url) {
+                if (true && !url) {
                     egret.$error(3002);
                 }
                 if (this.video && this.video.src == url) {
@@ -513,7 +567,7 @@ if (window['HTMLVideoElement'] == undefined) {
                         return;
                     this.video.volume = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebVideo.prototype, "position", {
@@ -527,7 +581,7 @@ if (window['HTMLVideoElement'] == undefined) {
                         return;
                     this.video.currentTime = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebVideo.prototype, "fullscreen", {
@@ -543,7 +597,7 @@ if (window['HTMLVideoElement'] == undefined) {
                         this.checkFullScreen(this._fullscreen);
                     }
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebVideo.prototype, "bitmapData", {
@@ -558,7 +612,7 @@ if (window['HTMLVideoElement'] == undefined) {
                     }
                     return this._bitmapData;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             WebVideo.prototype.loadPoster = function () {
@@ -652,7 +706,7 @@ if (window['HTMLVideoElement'] == undefined) {
                     }
                     return true;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebVideo.prototype, "length", {
@@ -662,12 +716,13 @@ if (window['HTMLVideoElement'] == undefined) {
                     }
                     throw new Error("Video not loaded!");
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             return WebVideo;
         }(egret.DisplayObject));
         kuaishou.WebVideo = WebVideo;
+        __reflect(WebVideo.prototype, "egret.kuaishou.WebVideo", ["egret.Video", "egret.DisplayObject"]);
         egret.Video = WebVideo;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -691,7 +746,7 @@ if (window['HTMLVideoElement'] == undefined) {
                     }
                     return null;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebHttpRequest.prototype, "responseType", {
@@ -701,7 +756,7 @@ if (window['HTMLVideoElement'] == undefined) {
                 set: function (value) {
                     this._responseType = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebHttpRequest.prototype, "withCredentials", {
@@ -711,7 +766,7 @@ if (window['HTMLVideoElement'] == undefined) {
                 set: function (value) {
                     this._withCredentials = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             WebHttpRequest.prototype.open = function (url, method) {
@@ -830,6 +885,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return WebHttpRequest;
         }(egret.EventDispatcher));
         kuaishou.WebHttpRequest = WebHttpRequest;
+        __reflect(WebHttpRequest.prototype, "egret.kuaishou.WebHttpRequest", ["egret.HttpRequest"]);
         egret.HttpRequest = WebHttpRequest;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -857,7 +913,7 @@ if (window['HTMLVideoElement'] == undefined) {
                     this._hasCrossOriginSet = true;
                     this._crossOrigin = value;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             WebImageLoader.prototype.load = function (url) {
@@ -926,6 +982,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return WebImageLoader;
         }(egret.EventDispatcher));
         kuaishou.WebImageLoader = WebImageLoader;
+        __reflect(WebImageLoader.prototype, "egret.kuaishou.WebImageLoader", ["egret.ImageLoader"]);
         egret.ImageLoader = WebImageLoader;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -1005,6 +1062,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return HTML5StageText;
         }(egret.EventDispatcher));
         kuaishou.HTML5StageText = HTML5StageText;
+        __reflect(HTML5StageText.prototype, "egret.kuaishou.HTML5StageText", ["egret.StageText"]);
         egret.StageText = HTML5StageText;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -1083,14 +1141,14 @@ if (window['HTMLVideoElement'] == undefined) {
                 get: function () {
                     return this.surface.width;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(CanvasRenderBuffer.prototype, "height", {
                 get: function () {
                     return this.surface.height;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             CanvasRenderBuffer.prototype.resize = function (width, height, useMaxSize) {
@@ -1114,6 +1172,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return CanvasRenderBuffer;
         }());
         kuaishou.CanvasRenderBuffer = CanvasRenderBuffer;
+        __reflect(CanvasRenderBuffer.prototype, "egret.kuaishou.CanvasRenderBuffer", ["egret.sys.RenderBuffer"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -1239,6 +1298,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return WebTouchHandler;
         }(egret.HashObject));
         kuaishou.WebTouchHandler = WebTouchHandler;
+        __reflect(WebTouchHandler.prototype, "egret.kuaishou.WebTouchHandler");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -1278,6 +1338,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return AudioType;
         }());
         kuaishou.AudioType = AudioType;
+        __reflect(AudioType.prototype, "egret.kuaishou.AudioType");
         var Html5Capatibility = (function (_super) {
             __extends(Html5Capatibility, _super);
             function Html5Capatibility() {
@@ -1289,6 +1350,7 @@ if (window['HTMLVideoElement'] == undefined) {
             return Html5Capatibility;
         }(egret.HashObject));
         kuaishou.Html5Capatibility = Html5Capatibility;
+        __reflect(Html5Capatibility.prototype, "egret.kuaishou.Html5Capatibility");
         var currentPrefix = null;
         function getPrefixStyleName(name, element) {
             var header = "";
@@ -1461,7 +1523,7 @@ if (window['HTMLVideoElement'] == undefined) {
         }
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
-if (DEBUG) {
+if (true) {
     var systemInfo = ks.getSystemInfoSync();
     var language = systemInfo.language.toLowerCase();
     if (language.indexOf('zh') > -1) {
@@ -1505,6 +1567,7 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
             return WebCapability;
         }());
         kuaishou.WebCapability = WebCapability;
+        __reflect(WebCapability.prototype, "egret.kuaishou.WebCapability");
         WebCapability.detect();
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -1603,10 +1666,10 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
                         fpsMax = num;
                 }
                 var fpsAvg = Math.floor(fpsTotal / lenFps);
-                fpsText.text = "".concat(numFps, " FPS \n")
-                    + "min:".concat(fpsMin, " max:").concat(fpsMax, " avg:").concat(fpsAvg, "\n")
-                    + "Draw ".concat(this.lastNumDraw, "\n")
-                    + "Cost ".concat(numCostTicker, " ").concat(numCostRender);
+                fpsText.text = numFps + " FPS \n"
+                    + ("min:" + fpsMin + " max:" + fpsMax + " avg:" + fpsAvg + "\n")
+                    + ("Draw " + this.lastNumDraw + "\n")
+                    + ("Cost " + numCostTicker + " " + numCostRender);
                 this.resizeBG();
             };
             WebFps.prototype.resizeBG = function () {
@@ -1653,6 +1716,7 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
             return WebFps;
         }(egret.DisplayObject));
         kuaishou.WebFps = WebFps;
+        __reflect(WebFps.prototype, "egret.kuaishou.WebFps", ["egret.FPSDisplay"]);
         egret.FPSDisplay = WebFps;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -1840,6 +1904,7 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
             return WebPlayer;
         }(egret.HashObject));
         kuaishou.WebPlayer = WebPlayer;
+        __reflect(WebPlayer.prototype, "egret.kuaishou.WebPlayer", ["egret.sys.Screen"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -1934,7 +1999,7 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
             });
             ks.getFileSystemManager().saveFile({
                 tempFilePath: result,
-                filePath: "".concat(ks.env.USER_DATA_PATH, "/").concat(filePath),
+                filePath: ks.env.USER_DATA_PATH + "/" + filePath,
                 success: function (res) {
                 }
             });
@@ -1978,99 +2043,18 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
 (function (egret) {
     var kuaishou;
     (function (kuaishou) {
-        var XMLNode = (function () {
-            function XMLNode(nodeType, parent) {
-                this.nodeType = nodeType;
-                this.parent = parent;
+        var WebExternalInterface = (function () {
+            function WebExternalInterface() {
             }
-            return XMLNode;
+            WebExternalInterface.call = function (functionName, value) {
+            };
+            WebExternalInterface.addCallback = function (functionName, listener) {
+            };
+            return WebExternalInterface;
         }());
-        kuaishou.XMLNode = XMLNode;
-        var XML = (function (_super) {
-            __extends(XML, _super);
-            function XML(localName, parent, prefix, namespace, name) {
-                var _this = _super.call(this, 1, parent) || this;
-                _this.attributes = {};
-                _this.children = [];
-                _this.localName = localName;
-                _this.prefix = prefix;
-                _this.namespace = namespace;
-                _this.name = name;
-                return _this;
-            }
-            return XML;
-        }(XMLNode));
-        kuaishou.XML = XML;
-        var XMLText = (function (_super) {
-            __extends(XMLText, _super);
-            function XMLText(text, parent) {
-                var _this = _super.call(this, 3, parent) || this;
-                _this.text = text;
-                return _this;
-            }
-            return XMLText;
-        }(XMLNode));
-        kuaishou.XMLText = XMLText;
-        var parser;
-        function parse(text) {
-            if (!parser) {
-                if (!window["DOMParser"]) {
-                    console.error("没有 XML 支持库，请访问 http://developer.egret.com/cn/github/egret-docs/Engine2D/minigame/minigameFAQ/index.html#xml 了解详情");
-                }
-                else {
-                    parser = new DOMParser();
-                }
-            }
-            var xmlDoc = parser.parseFromString(text, "text/xml");
-            var length = xmlDoc.childNodes.length;
-            for (var i = 0; i < length; i++) {
-                var node = xmlDoc.childNodes[i];
-                if (node.nodeType == 1) {
-                    return parseNode(node, null);
-                }
-            }
-            return null;
-        }
-        function parseNode(node, parent) {
-            if (node.localName == "parsererror") {
-                throw new Error(node.textContent);
-            }
-            var xml = new XML(node.localName, parent, node["prefix"], node.namespaceURI, node.nodeName);
-            var nodeAttributes = node.attributes;
-            var attributes = xml.attributes;
-            var length = nodeAttributes.length;
-            for (var i = 0; i < length; i++) {
-                var attributeNode = nodeAttributes[i];
-                var name_1 = attributeNode.name;
-                if (name_1.indexOf("xmlns:") == 0) {
-                    continue;
-                }
-                attributes[name_1] = attributeNode.value;
-                xml["$" + name_1] = attributeNode.value;
-            }
-            var childNodes = node.childNodes;
-            length = childNodes.length;
-            var children = xml.children;
-            for (var i = 0; i < length; i++) {
-                var childNode = childNodes[i];
-                var nodeType = childNode.nodeType;
-                var childXML = null;
-                if (nodeType == 1) {
-                    childXML = parseNode(childNode, xml);
-                }
-                else if (nodeType == 3) {
-                    var text = childNode.textContent.trim();
-                    if (text) {
-                        childXML = new XMLText(text, xml);
-                    }
-                }
-                if (childXML) {
-                    children.push(childXML);
-                }
-            }
-            return xml;
-        }
-        egret.XML = { parse: parse };
+        kuaishou.WebExternalInterface = WebExternalInterface;
+        __reflect(WebExternalInterface.prototype, "egret.kuaishou.WebExternalInterface", ["egret.ExternalInterface"]);
+        egret.ExternalInterface = WebExternalInterface;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -2106,6 +2090,7 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.KUAISHOU;
             return WebDeviceOrientation;
         }(egret.EventDispatcher));
         kuaishou.WebDeviceOrientation = WebDeviceOrientation;
+        __reflect(WebDeviceOrientation.prototype, "egret.kuaishou.WebDeviceOrientation", ["egret.DeviceOrientation"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
@@ -2169,10 +2154,31 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
         return WXSocket;
     }());
     egret.WXSocket = WXSocket;
+    __reflect(WXSocket.prototype, "egret.WXSocket", ["egret.ISocket"]);
     egret.ISocket = WXSocket;
 })(egret || (egret = {}));
+if (window['HTMLDivElement'] == undefined) {
+    window['HTMLDivElement'] = HTMLElement;
+}
+if (window['HTMLVideoElement'] == undefined) {
+    window['HTMLVideoElement'] = HTMLDivElement;
+}
 
 (function (egret) {
+    var kuaishou;
+    (function (kuaishou) {
+        var className = "egret.BitmapData";
+        egret.registerClass(HTMLImageElement, className);
+        egret.registerClass(HTMLCanvasElement, className);
+        egret.registerClass(HTMLVideoElement, className);
+    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
+})(egret || (egret = {}));
+(function (egret) {
+    function $toBitmapData(data) {
+        data["hashCode"] = data["$hashCode"] = egret.$hashCount++;
+        return data;
+    }
+    egret.$toBitmapData = $toBitmapData;
 })(egret || (egret = {}));
 
 (function (egret) {
@@ -2224,7 +2230,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                 return;
             }
             if (webglTexture[egret.engine_default_empty_texture]) {
-                if (DEBUG) {
+                if (true) {
                     console.warn('deleteWebGLTexture:' + egret.engine_default_empty_texture);
                 }
                 return;
@@ -2234,7 +2240,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                 gl.deleteTexture(webglTexture);
             }
             else {
-                if (DEBUG) {
+                if (true) {
                     console.error('deleteWebGLTexture gl = ' + gl);
                 }
             }
@@ -2257,108 +2263,119 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
         return WebGLUtils;
     }());
     egret.WebGLUtils = WebGLUtils;
+    __reflect(WebGLUtils.prototype, "egret.WebGLUtils");
+})(egret || (egret = {}));
+
+(function (egret) {
+    var localStorage;
+    (function (localStorage) {
+        var kuaishou;
+        (function (kuaishou) {
+            function getItem(key) {
+                return window.localStorage.getItem(key);
+            }
+            function setItem(key, value) {
+                try {
+                    window.localStorage.setItem(key, value);
+                    return true;
+                }
+                catch (e) {
+                    egret.$warn(1047, key, value);
+                    return false;
+                }
+            }
+            function removeItem(key) {
+                window.localStorage.removeItem(key);
+            }
+            function clear() {
+                window.localStorage.clear();
+            }
+            localStorage.getItem = getItem;
+            localStorage.setItem = setItem;
+            localStorage.removeItem = removeItem;
+            localStorage.clear = clear;
+        })(kuaishou = localStorage.kuaishou || (localStorage.kuaishou = {}));
+    })(localStorage = egret.localStorage || (egret.localStorage = {}));
 })(egret || (egret = {}));
 
 (function (egret) {
     var kuaishou;
     (function (kuaishou) {
-        var WebGeolocation = (function (_super) {
-            __extends(WebGeolocation, _super);
-            function WebGeolocation(option) {
+        var HtmlSound = (function (_super) {
+            __extends(HtmlSound, _super);
+            function HtmlSound() {
                 var _this = _super.call(this) || this;
-                _this.onUpdate = function (position) {
-                    var event = new egret.GeolocationEvent(egret.Event.CHANGE);
-                    var coords = position.coords;
-                    event.altitude = coords.altitude;
-                    event.heading = coords.heading;
-                    event.accuracy = coords.accuracy;
-                    event.latitude = coords.latitude;
-                    event.longitude = coords.longitude;
-                    event.speed = coords.speed;
-                    event.altitudeAccuracy = coords.altitudeAccuracy;
-                    _this.dispatchEvent(event);
-                };
-                _this.onError = function (error) {
-                    var errorType = egret.GeolocationEvent.UNAVAILABLE;
-                    if (error.code == error.PERMISSION_DENIED)
-                        errorType = egret.GeolocationEvent.PERMISSION_DENIED;
-                    var event = new egret.GeolocationEvent(egret.IOErrorEvent.IO_ERROR);
-                    event.errorType = errorType;
-                    event.errorMessage = error.message;
-                    _this.dispatchEvent(event);
-                };
-                _this.geolocation = navigator.geolocation;
+                _this.loaded = false;
                 return _this;
             }
-            WebGeolocation.prototype.start = function () {
-                var geo = this.geolocation;
-                if (geo)
-                    this.watchId = geo.watchPosition(this.onUpdate, this.onError);
-                else
-                    this.onError({
-                        code: 2,
-                        message: egret.sys.tr(3004),
-                        PERMISSION_DENIED: 1,
-                        POSITION_UNAVAILABLE: 2
-                    });
+            Object.defineProperty(HtmlSound.prototype, "length", {
+                get: function () {
+                    if (this.originAudio) {
+                        return this.originAudio.duration;
+                    }
+                    throw new Error("sound not loaded!");
+                },
+                enumerable: true,
+                configurable: true
+            });
+            HtmlSound.prototype.load = function (url) {
+                var self = this;
+                this.url = url;
+                if (!url) {
+                    egret.$warn(3002);
+                }
+                var audio = ks.createInnerAudioContext();
+                audio.onCanplay(onAudioLoaded);
+                audio.onError(onAudioError);
+                audio.src = url;
+                this.originAudio = audio;
+                function onAudioLoaded() {
+                    removeListeners();
+                    self.loaded = true;
+                    self.dispatchEventWith(egret.Event.COMPLETE);
+                }
+                function onAudioError() {
+                    removeListeners();
+                    self.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
+                }
+                function removeListeners() {
+                    audio.offCanplay(onAudioLoaded);
+                    audio.offError(onAudioError);
+                }
             };
-            WebGeolocation.prototype.stop = function () {
-                var geo = this.geolocation;
-                geo.clearWatch(this.watchId);
+            HtmlSound.prototype.play = function (startTime, loops) {
+                startTime = +startTime || 0;
+                loops = +loops || 0;
+                if (true && this.loaded == false) {
+                    egret.$warn(1049);
+                }
+                var channel = new kuaishou.HtmlSoundChannel(this.originAudio);
+                channel.$url = this.url;
+                channel.$loops = loops;
+                channel.$startTime = startTime;
+                channel.$play();
+                return channel;
             };
-            return WebGeolocation;
+            HtmlSound.prototype.close = function () {
+                if (this.originAudio) {
+                    this.originAudio.destroy();
+                    this.originAudio = null;
+                }
+                this.loaded = false;
+            };
+            HtmlSound.MUSIC = "music";
+            HtmlSound.EFFECT = "effect";
+            return HtmlSound;
         }(egret.EventDispatcher));
-        kuaishou.WebGeolocation = WebGeolocation;
+        kuaishou.HtmlSound = HtmlSound;
+        __reflect(HtmlSound.prototype, "egret.kuaishou.HtmlSound", ["egret.Sound"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
 (function (egret) {
     var kuaishou;
     (function (kuaishou) {
-        var WebMotion = (function (_super) {
-            __extends(WebMotion, _super);
-            function WebMotion() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.onChange = function (e) {
-                    var event = new egret.MotionEvent(egret.Event.CHANGE);
-                    var acceleration = {
-                        x: e.acceleration.x,
-                        y: e.acceleration.y,
-                        z: e.acceleration.z
-                    };
-                    var accelerationIncludingGravity = {
-                        x: e.accelerationIncludingGravity.x,
-                        y: e.accelerationIncludingGravity.y,
-                        z: e.accelerationIncludingGravity.z
-                    };
-                    var rotation = {
-                        alpha: e.rotationRate.alpha,
-                        beta: e.rotationRate.beta,
-                        gamma: e.rotationRate.gamma
-                    };
-                    event.acceleration = acceleration;
-                    event.accelerationIncludingGravity = accelerationIncludingGravity;
-                    event.rotationRate = rotation;
-                    _this.dispatchEvent(event);
-                };
-                return _this;
-            }
-            WebMotion.prototype.start = function () {
-                window.addEventListener("devicemotion", this.onChange);
-            };
-            WebMotion.prototype.stop = function () {
-                window.removeEventListener("devicemotion", this.onChange);
-            };
-            return WebMotion;
-        }(egret.EventDispatcher));
-        kuaishou.WebMotion = WebMotion;
-    })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
-})(egret || (egret = {}));
-
-(function (egret) {
-    var kuaishou;
-    (function (kuaishou) {
-        if (DEBUG) {
+        if (true) {
             var logFuncs_1;
             function setLogLevel(logType) {
                 if (logFuncs_1 == null) {
@@ -2587,6 +2604,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLDrawCmdManager;
         }());
         kuaishou.WebGLDrawCmdManager = WebGLDrawCmdManager;
+        __reflect(WebGLDrawCmdManager.prototype, "egret.kuaishou.WebGLDrawCmdManager");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -2864,6 +2882,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLVertexArrayObject;
         }());
         kuaishou.WebGLVertexArrayObject = WebGLVertexArrayObject;
+        __reflect(WebGLVertexArrayObject.prototype, "egret.kuaishou.WebGLVertexArrayObject");
         function isIOS14Device() {
             return egret.Capabilities.runtimeType == egret.RuntimeType.WEB
                 && egret.Capabilities.os == "iOS"
@@ -2891,13 +2910,13 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                 width = width || 1;
                 height = height || 1;
                 if (width < 1) {
-                    if (DEBUG) {
+                    if (true) {
                         egret.warn('WebGLRenderTarget _resize width = ' + width);
                     }
                     width = 1;
                 }
                 if (height < 1) {
-                    if (DEBUG) {
+                    if (true) {
                         egret.warn('WebGLRenderTarget _resize height = ' + height);
                     }
                     height = 1;
@@ -2966,6 +2985,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLRenderTarget;
         }(egret.HashObject));
         kuaishou.WebGLRenderTarget = WebGLRenderTarget;
+        __reflect(WebGLRenderTarget.prototype, "egret.kuaishou.WebGLRenderTarget");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -3086,7 +3106,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                     for (var key in extension) {
                         info.supportedFormats.push([key, extension[key]]);
                     }
-                    if (DEBUG) {
+                    if (true) {
                         if (info.supportedFormats.length === 0) {
                             console.error("buildSupportedCompressedTextureInfo failed = " + extension.name);
                         }
@@ -3266,7 +3286,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                     }
                     return this._defaultEmptyTexture;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             WebGLRenderContext.prototype.getWebGLTexture = function (bitmapData) {
@@ -3854,6 +3874,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLRenderContext;
         }());
         kuaishou.WebGLRenderContext = WebGLRenderContext;
+        __reflect(WebGLRenderContext.prototype, "egret.kuaishou.WebGLRenderContext", ["egret.sys.RenderContext"]);
         WebGLRenderContext.initBlendMode();
         egret.sys.WebGLRenderContext = WebGLRenderContext;
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
@@ -3963,7 +3984,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                         return this.rootRenderTarget.width;
                     }
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(WebGLRenderBuffer.prototype, "height", {
@@ -3975,7 +3996,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                         return this.rootRenderTarget.height;
                     }
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             WebGLRenderBuffer.prototype.resize = function (width, height, useMaxSize) {
@@ -4155,6 +4176,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLRenderBuffer;
         }(egret.HashObject));
         kuaishou.WebGLRenderBuffer = WebGLRenderBuffer;
+        __reflect(WebGLRenderBuffer.prototype, "egret.kuaishou.WebGLRenderBuffer", ["egret.sys.RenderBuffer"]);
         var renderBufferPool = [];
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
@@ -5196,6 +5218,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return WebGLRenderer;
         }());
         kuaishou.WebGLRenderer = WebGLRenderer;
+        __reflect(WebGLRenderer.prototype, "egret.kuaishou.WebGLRenderer", ["egret.sys.SystemRenderer"]);
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -5257,6 +5280,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return EgretWebGLAttribute;
         }());
         kuaishou.EgretWebGLAttribute = EgretWebGLAttribute;
+        __reflect(EgretWebGLAttribute.prototype, "egret.kuaishou.EgretWebGLAttribute");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -5325,6 +5349,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return EgretWebGLProgram;
         }());
         kuaishou.EgretWebGLProgram = EgretWebGLProgram;
+        __reflect(EgretWebGLProgram.prototype, "egret.kuaishou.EgretWebGLProgram");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -5527,6 +5552,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return EgretWebGLUniform;
         }());
         kuaishou.EgretWebGLUniform = EgretWebGLUniform;
+        __reflect(EgretWebGLUniform.prototype, "egret.kuaishou.EgretWebGLUniform");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -5547,6 +5573,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return EgretShaderLib;
         }());
         kuaishou.EgretShaderLib = EgretShaderLib;
+        __reflect(EgretShaderLib.prototype, "egret.kuaishou.EgretShaderLib");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 ;
@@ -5586,42 +5613,42 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                 get: function () {
                     return this._border;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "width", {
                 get: function () {
                     return this._width + this.border * 2;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "height", {
                 get: function () {
                     return this._height + this.border * 2;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "contentWidth", {
                 get: function () {
                     return this._width;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "contentHeight", {
                 get: function () {
                     return this._height;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "page", {
                 get: function () {
                     return this.line ? this.line.page : null;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             TextBlock.prototype.updateUV = function () {
@@ -5641,7 +5668,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                     }
                     return line.x + this.x + this.border;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TextBlock.prototype, "subImageOffsetY", {
@@ -5652,12 +5679,13 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                     }
                     return line.y + this.y + this.border;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             return TextBlock;
         }(egret.HashObject));
         kuaishou.TextBlock = TextBlock;
+        __reflect(TextBlock.prototype, "egret.kuaishou.TextBlock");
         var Line = (function (_super) {
             __extends(Line, _super);
             function Line(maxWidth) {
@@ -5725,6 +5753,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return Line;
         }(egret.HashObject));
         kuaishou.Line = Line;
+        __reflect(Line.prototype, "egret.kuaishou.Line");
         var Page = (function (_super) {
             __extends(Page, _super);
             function Page(pageWidth, pageHeight) {
@@ -5765,6 +5794,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return Page;
         }(egret.HashObject));
         kuaishou.Page = Page;
+        __reflect(Page.prototype, "egret.kuaishou.Page");
         var Book = (function (_super) {
             __extends(Book, _super);
             function Book(maxSize, border) {
@@ -5860,6 +5890,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return Book;
         }(egret.HashObject));
         kuaishou.Book = Book;
+        __reflect(Book.prototype, "egret.kuaishou.Book");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -5907,6 +5938,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             return DrawLabel;
         }(egret.HashObject));
         kuaishou.DrawLabel = DrawLabel;
+        __reflect(DrawLabel.prototype, "egret.kuaishou.DrawLabel");
         var StyleInfo = (function (_super) {
             __extends(StyleInfo, _super);
             function StyleInfo(textNode, format) {
@@ -5943,6 +5975,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             }
             return StyleInfo;
         }(egret.HashObject));
+        __reflect(StyleInfo.prototype, "StyleInfo");
         var CharImageRender = (function (_super) {
             __extends(CharImageRender, _super);
             function CharImageRender() {
@@ -6030,6 +6063,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
             CharImageRender.chineseCharacterMeasureFastMap = {};
             return CharImageRender;
         }(egret.HashObject));
+        __reflect(CharImageRender.prototype, "CharImageRender");
         var TextAtlasRender = (function (_super) {
             __extends(TextAtlasRender, _super);
             function TextAtlasRender(webglRenderContext, maxSize, border) {
@@ -6135,12 +6169,13 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
                     }
                     return this._canvas;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             return TextAtlasRender;
         }(egret.HashObject));
         kuaishou.TextAtlasRender = TextAtlasRender;
+        __reflect(TextAtlasRender.prototype, "egret.kuaishou.TextAtlasRender");
     })(kuaishou = egret.kuaishou || (egret.kuaishou = {}));
 })(egret || (egret = {}));
 
@@ -6310,7 +6345,7 @@ egret.DeviceOrientation = egret.kuaishou.WebDeviceOrientation;
         function measureTextWith(context, text) {
             var metrics = context.measureText(text);
             if (!metrics) {
-                egret.warn("wxcontext.measureText result is null or undefined;text is ".concat(text, "; font is ").concat(context.font));
+                egret.warn("wxcontext.measureText result is null or undefined;text is " + text + "; font is " + context.font);
                 return 1;
             }
             return metrics.width;
